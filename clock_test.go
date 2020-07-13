@@ -7,6 +7,18 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+func Test_Duration(t *testing.T) {
+	Convey("Given some non-zero duration", t, func(c C) {
+		d1 := (time.Second * 5) + (time.Nanosecond * 10)
+		pb := DurationToPB(d1)
+		So(pb.Seconds, ShouldEqual, 5)
+		So(pb.Nanos, ShouldEqual, 10)
+		d2 := DurationFromPB(pb)
+		So(int64(d2.Seconds()), ShouldEqual, 5)
+		So(d1, ShouldEqual, d2)
+	})
+}
+
 func Test_TimestampConversion(t *testing.T) {
 	Convey("Given some non-zero time", t, func(c C) {
 		now := time.Now()
